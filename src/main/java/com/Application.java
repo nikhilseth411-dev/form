@@ -1,15 +1,14 @@
-package com.bank.form121;
+package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Form121Application {
+public class Application {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(Form121Application.class, args);
+		SpringApplication.run(Application.class, args);
 
 	}
-
 }
