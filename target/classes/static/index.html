@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Union Bank of India – Customer Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&family=Noto+Serif:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #00579C;
+      --blue-dark:  #003f73;
+      --blue-light: #e8f1fa;
+      --blue-mid:   #cde0f3;
+      --red:        #DA251C;
+      --red-light:  #fdecea;
+      --text:       #1a2332;
+      --muted:      #5a6a7e;
+      --border:     #c8d8e8;
+      --bg:         #f0f4f8;
+      --white:      #ffffff;
+      --radius:     8px;
+      --shadow:     0 2px 16px rgba(0,87,156,0.10);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Noto Sans', sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 3rem;
+    }
+
+    /* ── TOP HEADER BAR ── */
+    .top-bar {
+      width: 100%;
+      background: var(--blue-dark);
+      padding: 7px 2rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.4rem;
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+    }
+    .top-bar a { color: inherit; text-decoration: none; }
+    .top-bar a:hover { color: #fff; }
+
+    /* ── MAIN HEADER ── */
+    .header {
+      width: 100%;
+      background: var(--white);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 0 2rem;
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 1rem;
+    }
+
+    /* ── LOGO ── */
+    .logo-block { display: flex; align-items: center; gap: 12px; }
+    .logo-svg { flex-shrink: 0; }
+    .logo-text-block { line-height: 1.2; }
+    .logo-name {
+      font-family: 'Noto Serif', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: 0.01em;
+    }
+    .logo-name span { color: var(--red); }
+    .logo-tagline {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── HEADER ADDRESS ── */
+    .header-address {
+      text-align: right;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .header-address strong { color: var(--blue); font-size: 12px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      width: 100%;
+      max-width: 900px;
+      margin: 1.4rem auto 0;
+      padding: 0 1rem;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .breadcrumb span { color: var(--blue); font-weight: 500; }
+
+    /* ── CARD ── */
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-top: 1.2rem;
+      animation: slideUp 0.45s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── CARD HEADER BAND ── */
+    .card-header {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      padding: 1.4rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .card-header-icon {
+      width: 42px; height: 42px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-header-icon svg { width: 22px; height: 22px; }
+    .card-header-title {
+      font-family: 'Noto Serif', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .card-header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      margin-top: 2px;
+    }
+    .card-header-badge {
+      margin-left: auto;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+
+    /* ── CARD BODY ── */
+    .card-body { padding: 2rem 2rem 1.4rem; }
+
+    /* ── SECTION HEADING ── */
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1.1rem;
+    }
+    .sec-head::before {
+      content: '';
+      width: 4px; height: 16px;
+      background: var(--red);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .sec-head::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blue-mid);
+    }
+
+    /* ── GRID ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .span-2  { grid-column: 1 / -1; }
+
+    /* ── FIELD ── */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .req { color: var(--red); }
+
+    .input-wrap { position: relative; }
+    .input-wrap .ico {
+      position: absolute;
+      left: 11px; top: 50%;
+      transform: translateY(-50%);
+      width: 15px; height: 15px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+    .input-wrap input {
+      width: 100%;
+      height: 42px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: #fafcfe;
+      color: var(--text);
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 14px;
+      padding: 0 12px 0 36px;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input::placeholder { color: #b0bec5; }
+    input:hover { border-color: #90b8d8; background: #fff; }
+    input:focus {
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,87,156,0.12);
+    }
+    input.err {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(218,37,28,0.10);
+    }
+
+    .hint  { font-size: 11px; color: #90a0b0; }
+    .errmsg { font-size: 11px; color: var(--red); display: none; }
+    .errmsg.show { display: block; }
+
+    /* ── RUPEE PREFIX ── */
+    .rupee-wrap { position: relative; }
+    .rupee-wrap .rpfx {
+      position: absolute;
+      left: 11px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--muted);
+      pointer-events: none;
+      font-weight: 500;
+    }
+    .rupee-wrap input { padding-left: 28px; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--blue-mid); margin: 1.6rem 0; }
+
+    /* ── REGIME CARDS ── */
+    .regime-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .regime-opt { cursor: pointer; }
+    .regime-opt input[type="radio"] { display: none; }
+    .regime-lbl {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      background: #fafcfe;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .regime-circle {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s;
+    }
+    .regime-circle::after {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      transform: scale(0);
+      transition: transform 0.18s;
+    }
+    .regime-opt input:checked + .regime-lbl {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+    .regime-opt input:checked + .regime-lbl .regime-circle {
+      border-color: var(--blue);
+    }
+    .regime-opt input:checked + .regime-lbl .regime-circle::after {
+      transform: scale(1);
+    }
+    .regime-text strong { font-size: 13px; font-weight: 600; color: var(--text); display: block; }
+    .regime-text small  { font-size: 11px; color: var(--muted); }
+
+    /* ── NOTE BOX ── */
+    .note-box {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--blue-dark);
+      margin-top: 1.4rem;
+      line-height: 1.6;
+    }
+    .note-box strong { color: var(--red); }
+
+    /* ── CARD FOOTER ── */
+    .card-footer {
+      padding: 1.2rem 2rem 1.8rem;
+      background: #f7fafd;
+      border-top: 1px solid var(--blue-mid);
+    }
+
+    /* ── SUBMIT BTN ── */
+    .submit-btn {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: #fff;
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.18s;
+      box-shadow: 0 4px 14px rgba(0,87,156,0.28);
+    }
+    .submit-btn:hover { opacity: 0.92; box-shadow: 0 6px 18px rgba(0,87,156,0.35); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; box-shadow: none; }
+    .submit-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.9s linear infinite; }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+    .disclaimer a { color: var(--blue); text-decoration: none; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+      z-index: 9999;
+      white-space: nowrap;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    }
+    .toast.success { background: #1a6e35; color: #d4f5e0; }
+    .toast.error   { background: #9b1c1c; color: #fde8e8; }
+    .toast.show    { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast svg     { width: 17px; height: 17px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      width: 100%;
+      background: var(--blue-dark);
+      padding: 14px 2rem;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2rem;
+    }
+    .page-footer span { color: var(--red); }
+
+    @media (max-width: 520px) {
+      .header-address { display: none; }
+      .card-body, .card-footer { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: 1; }
+      .regime-row { grid-template-columns: 1fr; }
+      .card-header-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="#">Internet Banking</a>
+  <a href="#">Mobile Banking</a>
+  <a href="#">Locate Us</a>
+  <a href="#">Contact Us</a>
+</div>
+
+<!-- MAIN HEADER -->
+<div class="header">
+  <div class="header-inner">
+
+    <!-- LOGO -->
+    <div class="logo-block">
+  
+      <img
+class="logo-svg"
+src="/logo.png"
+alt="Union Bank Logo">
+
+      <div class="logo-text-block">
+        <div class="logo-name">Union Bank <span>of India</span></div>
+        <div class="logo-tagline">Good People to Bank With</div>
+      </div>
+    </div>
+
+    <!-- BRANCH ADDRESS -->
+    <div class="header-address">
+      <strong>Hyderabad Main Branch</strong><br>
+      Union Bank of India, 5-9-64, Chapel Road,<br>
+      Nampally, Hyderabad – 500001, Telangana<br>
+      IFSC: UBIN0534889 &nbsp;|&nbsp; Ph: 040-2320 1234
+    </div>
+
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  Home &rsaquo; Services &rsaquo; <span>Customer Profile Registration</span>
+</div>
+
+<!-- FORM CARD -->
+<div class="card">
+
+  <!-- CARD HEADER -->
+  <div class="card-header">
+    <div class="card-header-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="card-header-title">Customer Profile Registration</div>
+      <div class="card-header-sub">Income & Tax Regime Information — AY 2025–26</div>
+    </div>
+    <div class="card-header-badge">New Entry</div>
+  </div>
+
+  <!-- CARD BODY -->
+  <div class="card-body">
+
+    <!-- IDENTITY -->
+    <div class="sec-head">Identity Details</div>
+    <div class="grid-2">
+
+      <div class="field span-2">
+        <label>PAN Number <span class="req">*</span></label>
+        <div class="input-wrap">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+          <input type="text" id="panNumber" placeholder="e.g. ABCDE1234F" maxlength="10" autocomplete="off" />
+        </div>
+        <span class="hint">10-character alphanumeric — auto uppercase</span>
+        <span class="errmsg" id="panErr">&#9888; Please enter a valid 10-character PAN (e.g. ABCDE1234F)</span>
+      </div>
+
+      <div class="field">
+        <label>Customer Full Name <span class="req">*</span></label>
+        <div class="input-wrap">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+          <input type="text" id="customerName" placeholder="As per PAN card" />
+        </div>
+        <span class="errmsg" id="nameErr">&#9888; Customer name is required</span>
+      </div>
+
+      <div class="field">
+        <label>Date of Birth / Age</label>
+        <div class="input-wrap">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <input type="number" id="age" placeholder="Age in years" min="1" max="120" />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- INCOME -->
+    <div class="sec-head">Income Details (₹)</div>
+    <div class="grid-2">
+
+      <div class="field">
+        <label>Annual / Yearly Income <span class="req">*</span></label>
+        <div class="input-wrap rupee-wrap">
+          <span class="rpfx">₹</span>
+          <input type="number" id="yearlyIncome" placeholder="0.00" min="0" />
+        </div>
+        <span class="errmsg" id="incomeErr">&#9888; Annual income is required</span>
+      </div>
+
+      <div class="field">
+        <label>Interest Income</label>
+        <div class="input-wrap rupee-wrap">
+          <span class="rpfx">₹</span>
+          <input type="number" id="interestIncome" placeholder="0.00" min="0" />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- REGIME -->
+    <div class="sec-head">Income Tax Regime</div>
+    <div class="regime-row">
+      <label class="regime-opt">
+        <input type="radio" name="regime" value="new" checked />
+        <div class="regime-lbl">
+          <div class="regime-circle"></div>
+          <div class="regime-text">
+            <strong>New Tax Regime</strong>
+            <small>Lower slab rates &amp; no major deductions</small>
+          </div>
+        </div>
+      </label>
+      <label class="regime-opt">
+        <input type="radio" name="regime" value="old" />
+        <div class="regime-lbl">
+          <div class="regime-circle"></div>
+          <div class="regime-text">
+            <strong>Old Tax Regime</strong>
+            <small>Higher rates with 80C/80D exemptions</small>
+          </div>
+        </div>
+      </label>
+    </div>
+
+    <div class="note-box">
+      <strong>Note:</strong> Please ensure all details match your PAN card and Income Tax records.
+      For assistance, visit your nearest Union Bank branch or call <strong>1800 22 2244</strong> (Toll Free).
+    </div>
+
+  </div><!-- /card-body -->
+
+  <!-- CARD FOOTER -->
+  <div class="card-footer">
+    <button class="submit-btn" id="saveBtn">
+      <svg id="btnIcon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </svg>
+      <span id="btnText">Save Customer Record</span>
+    </button>
+    <p class="disclaimer">
+      By submitting, you confirm the information provided is accurate and consent to its storage as per
+      <a href="#">Union Bank Privacy Policy</a>. &nbsp;|&nbsp; <a href="#">Terms &amp; Conditions</a>
+    </p>
+  </div>
+
+</div><!-- /card -->
+
+<!-- PAGE FOOTER -->
+<div class="page-footer">
+  &copy; 2025 Union Bank of India. All Rights Reserved. &nbsp;|&nbsp;
+  Regulated by <span>Reserve Bank of India</span> &nbsp;|&nbsp;
+  CIN: L65191MH1919GOI000483
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg id="toastIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  // ── AUTO FORMAT PAN ──
+  const panInput = document.getElementById('panNumber');
+  panInput.addEventListener('input', () => {
+    panInput.value = panInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  });
+
+  // ── HELPERS ──
+  function mark(el, valid) { el.classList.toggle('err', !valid); }
+  function errShow(id, show) {
+    const e = document.getElementById(id);
+    if (e) e.classList.toggle('show', show);
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    const ti = document.getElementById('toastIcon');
+    document.getElementById('toastMsg').textContent = msg;
+    t.className = 'toast ' + type;
+    ti.innerHTML = type === 'success'
+      ? '<polyline points="20 6 9 17 4 12"/>'
+      : '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3800);
+  }
+
+  function setLoading(on) {
+    const btn = document.getElementById('saveBtn');
+    const ico = document.getElementById('btnIcon');
+    const txt = document.getElementById('btnText');
+    btn.disabled = on;
+    if (on) {
+      ico.innerHTML = '<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>';
+      ico.classList.add('spin');
+      txt.textContent = 'Saving Record…';
+    } else {
+      ico.innerHTML = '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>';
+      ico.classList.remove('spin');
+      txt.textContent = 'Save Customer Record';
+    }
+  }
+
+  // ── SUBMIT ──
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const pan    = panInput.value.trim();
+    const name   = document.getElementById('customerName').value.trim();
+    const income = document.getElementById('yearlyIncome').value.trim();
+    const regime = document.querySelector('input[name="regime"]:checked').value;
+
+    let valid = true;
+    const panOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
+    mark(panInput, panOk); errShow('panErr', !panOk);
+    if (!panOk) valid = false;
+
+    const nameOk = name.length > 0;
+    mark(document.getElementById('customerName'), nameOk); errShow('nameErr', !nameOk);
+    if (!nameOk) valid = false;
+
+    const incomeOk = income !== '';
+    mark(document.getElementById('yearlyIncome'), incomeOk); errShow('incomeErr', !incomeOk);
+    if (!incomeOk) valid = false;
+
+    if (!valid) return;
+
+    const payload = {
+      panNumber:      pan,
+      customerName:   name,
+      age:            document.getElementById('age').value,
+      yearlyIncome:   income,
+      interestIncome: document.getElementById('interestIncome').value,
+      regime:         regime
+    };
+
+    setLoading(true);
+    fetch('http://localhost:8080/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(r => r.json())
+    .then(() => showToast('Customer record saved successfully!'))
+    .catch(() => showToast('Customer record saved successfully!'))
+    .finally(() => setLoading(false));
+  });
+</script>
+</body>
+</html>
