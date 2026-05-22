@@ -592,7 +592,7 @@ alt="Union Bank Logo">
         <polyline points="17 21 17 13 7 13 7 21"/>
         <polyline points="7 3 7 8 15 8"/>
       </svg>
-      <span id="btnText">Save Customer Record</span>
+      <span id="btnText">Save Customer Record and Export to PDF</span>
     </button>
     <p class="disclaimer">
       By submitting, you confirm the information provided is accurate and consent to its storage as per
@@ -671,6 +671,8 @@ alt="Union Bank Logo">
 
     const nameOk = name.length > 0;
     mark(document.getElementById('customerName'), nameOk); errShow('nameErr', !nameOk);
+    
+
     if (!nameOk) valid = false;
 
     const incomeOk = income !== '';
@@ -689,15 +691,57 @@ alt="Union Bank Logo">
     };
 
     setLoading(true);
-    fetch('http://localhost:8080/save', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(r => r.json())
-    .then(() => showToast('Customer record saved successfully!'))
-    .catch(() => showToast('Customer record saved successfully!'))
-    .finally(() => setLoading(false));
+    setLoading(true);
+
+    fetch(
+    'http://localhost:8080/save-pdf',
+    {
+    method:'POST',
+    headers:{
+    'Content-Type':'application/json'
+    },
+    body:
+    JSON.stringify(payload)
+    }
+    )
+    .then(
+    response=>
+    response.blob()
+    )
+    .then(
+    		
+    		
+    blob=>{
+    const url=
+    window.URL
+    .createObjectURL(
+    blob
+    );
+    const a=
+    document
+    .createElement(
+    'a'
+    );
+    a.href=
+    url;
+    a.download=
+    'customer.pdf';
+    a.click();
+    showToast(
+    'PDF Downloaded'
+    );
+    }
+    )
+    .catch(
+    ()=>showToast(
+    'Failed'
+    )
+    )
+    .finally(
+    ()=>setLoading(
+    false
+    )
+    );
   });
 </script>
 </body>

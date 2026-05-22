@@ -3,29 +3,73 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.entity.Customer;
 import com.service.CustomerService;
+import com.service.PdfService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="*")
+
 public class CustomerController {
 
-    @Autowired
-    private CustomerService service;
+@Autowired
+private CustomerService service;
 
-    @PostMapping("/save")
-    public Customer saveCustomer(@RequestBody Customer customer) {
-        return service.saveCustomer(customer);
-    }
+@Autowired
+private PdfService pdfService;
 
-    @GetMapping("/customers")
-    public List<Customer> getAllCustomers() {
-        return service.getAllCustomers();
-    }
+
+
+@PostMapping("/save-pdf")
+
+public ResponseEntity<byte[]>
+saveCustomer(
+
+@RequestBody Customer customer
+
+)throws Exception{
+
+service.saveCustomer(
+customer
+);
+
+byte[] pdf =
+pdfService.generatePdf(
+customer
+);
+
+return ResponseEntity
+.ok()
+
+.header(
+"Content-Disposition",
+"attachment; filename=form121.pdf"
+)
+
+.header(
+"Content-Type",
+"application/pdf"
+)
+
+.body(
+pdf
+);
+
+}
+
+
+
+@GetMapping("/customers")
+
+public List<Customer>
+getAllCustomers(){
+
+return service
+.getAllCustomers();
+
+}
+
 }
