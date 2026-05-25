@@ -18,7 +18,7 @@
       --red-light:  #fdecea;
       --text:       #1a2332;
       --muted:      #5a6a7e;
-      --border:     #c8d8e8;
+      --border:     #c8d8e8;	
       --bg:         #f0f4f8;
       --white:      #ffffff;
       --radius:     8px;
@@ -657,92 +657,210 @@ alt="Union Bank Logo">
     }
   }
 
-  // ── SUBMIT ──
+//── SUBMIT ──
   document.getElementById('saveBtn').addEventListener('click', () => {
-    const pan    = panInput.value.trim();
-    const name   = document.getElementById('customerName').value.trim();
-    const income = document.getElementById('yearlyIncome').value.trim();
-    const regime = document.querySelector('input[name="regime"]:checked').value;
 
-    let valid = true;
-    const panOk = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan);
-    mark(panInput, panOk); errShow('panErr', !panOk);
-    if (!panOk) valid = false;
+  const pan = panInput.value.trim();
+  const name = document.getElementById('customerName').value.trim();
+  const income = document.getElementById('yearlyIncome').value.trim();
+  const regime =
+  document.querySelector(
+  'input[name="regime"]:checked'
+  ).value;
 
-    const nameOk = name.length > 0;
-    mark(document.getElementById('customerName'), nameOk); errShow('nameErr', !nameOk);
-    
+  let valid = true;
 
-    if (!nameOk) valid = false;
+  const panOk =
+  /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/
+  .test(pan);
 
-    const incomeOk = income !== '';
-    mark(document.getElementById('yearlyIncome'), incomeOk); errShow('incomeErr', !incomeOk);
-    if (!incomeOk) valid = false;
+  mark(panInput, panOk);
+  errShow('panErr', !panOk);
 
-    if (!valid) return;
+  if (!panOk)
+  valid = false;
 
-    const payload = {
-      panNumber:      pan,
-      customerName:   name,
-      age:            document.getElementById('age').value,
-      yearlyIncome:   income,
-      interestIncome: document.getElementById('interestIncome').value,
-      regime:         regime
-    };
+  const nameOk =
+  name.length > 0;
 
-    setLoading(true);
-    setLoading(true);
+  mark(
+  document.getElementById(
+  'customerName'
+  ),
+  nameOk
+  );
 
-    fetch(
-    'http://localhost:8080/save-pdf',
-    {
-    method:'POST',
-    headers:{
-    'Content-Type':'application/json'
-    },
-    body:
-    JSON.stringify(payload)
-    }
-    )
-    .then(
-    response=>
-    response.blob()
-    )
-    .then(
-    		
-    		
-    blob=>{
-    const url=
-    window.URL
-    .createObjectURL(
-    blob
-    );
-    const a=
-    document
-    .createElement(
-    'a'
-    );
-    a.href=
-    url;
-    a.download=
-    'customer.pdf';
-    a.click();
-    showToast(
-    'PDF Downloaded'
-    );
-    }
-    )
-    .catch(
-    ()=>showToast(
-    'Failed'
-    )
-    )
-    .finally(
-    ()=>setLoading(
-    false
-    )
-    );
+  errShow(
+  'nameErr',
+  !nameOk
+  );
+
+  if (!nameOk)
+  valid = false;
+
+  const incomeOk =
+  income !== '';
+
+  mark(
+  document.getElementById(
+  'yearlyIncome'
+  ),
+  incomeOk
+  );
+
+  errShow(
+  'incomeErr',
+  !incomeOk
+  );
+
+  if (!incomeOk)
+  valid = false;
+
+  if (!valid)
+  return;
+
+  const payload = {
+
+  panNumber:
+  pan,
+
+  customerName:
+  name,
+
+  age:
+  document
+  .getElementById(
+  'age'
+  )
+  .value,
+
+  yearlyIncome:
+  income,
+
+  interestIncome:
+  document
+  .getElementById(
+  'interestIncome'
+  )
+  .value,
+
+  regime:
+  regime
+
+  };
+
+  setLoading(true);
+
+  fetch(
+  'http://localhost:8080/save-pdf',
+  {
+
+  method:
+  'POST',
+
+  headers:{
+
+  'Content-Type':
+  'application/json'
+
+  },
+
+  body:
+  JSON.stringify(
+  payload
+  )
+
+  }
+
+  )
+
+ .then(async response => {
+
+if (
+response.status === 409
+){
+
+const msg =
+await response.text();
+
+showToast(
+msg,
+'error'
+);
+
+return null;
+
+}
+
+if(
+!response.ok
+){
+
+showToast(
+'Save failed',
+'error'
+);
+
+return null;
+
+}
+
+return response.blob();
+
+})
+
+  .then(blob => {
+
+  if(
+  !blob
+  )
+  return;
+
+  const url =
+  window
+  .URL
+  .createObjectURL(
+  blob
+  );
+
+  const a =
+  document
+  .createElement(
+  'a'
+  );
+
+  a.href =
+  url;
+
+  a.download =
+  'customer.pdf';
+
+  a.click();
+
+  showToast(
+  'PDF generated successfully'
+  );
+
+  })
+
+  .catch(error => {
+
+  showToast(
+  error.message,
+  'error'
+  );
+
+  })
+
+  .finally(() => {
+
+  setLoading(
+  false
+  );
+
   });
+
+  });  
 </script>
 </body>
 </html>
