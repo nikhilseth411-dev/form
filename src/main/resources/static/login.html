@@ -2,169 +2,159 @@
 <html>
 
 <head>
+
 <meta charset="UTF-8">
-<title>Login</title>
+
+<title>Union Bank Login</title>
 
 <style>
-
-body{
-background:#050816;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-font-family:Arial;
+body {
+	background: #050816;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	font-family: Arial;
+	margin: 0;
 }
 
-.card{
-
-width:350px;
-
-background:#111827;
-
-padding:40px;
-
-border-radius:20px;
-
+.card {
+	width: 350px;
+	background: #111827;
+	padding: 40px;
+	border-radius: 20px;
 }
 
-h1{
-color:#d6b37c;
+h1 {
+	color: #d6b37c;
+	text-align: center;
 }
 
-input{
-
-width:100%;
-
-padding:14px;
-
-margin-top:15px;
-
-border-radius:10px;
-
-border:none;
-
+input {
+	width: 100%;
+	padding: 14px;
+	margin-top: 15px;
+	border-radius: 10px;
+	border: none;
+	box-sizing: border-box;
 }
 
-button{
-
-width:100%;
-
-padding:14px;
-
-margin-top:20px;
-
-background:#d6b37c;
-
-border:none;
-
-cursor:pointer;
-
+button {
+	width: 100%;
+	padding: 14px;
+	margin-top: 20px;
+	background: #d6b37c;
+	border: none;
+	cursor: pointer;
+	border-radius: 10px;
+	font-weight: bold;
 }
 
-p{
-color:red;
+p {
+	color: red;
+	text-align: center;
 }
-
 </style>
 
 </head>
 
 <body>
 
-<div class="card">
+	<div class="card">
 
-<h1>Login</h1>
+		<h1>Login</h1>
 
-<input
-id="username"
-placeholder="Username">
+		<input id="email" type="email" placeholder="Enter Email"> <input
+			id="password" type="password" placeholder="Enter Password">
 
-<input
-id="password"
-type="password"
-placeholder="Password">
+		<button onclick="login()">Login</button>
 
-<button onclick="login()">
+		<p id="err"></p>
 
-Login
+	</div>
 
-</button>
+	<script>
+		localStorage.removeItem("loggedIn");
 
-<p id="err"></p>
+		async function login() {
 
-</div>
+			const email = document.getElementById("email").value.trim();
 
+			const password = document.getElementById("password").value.trim();
 
-<script>
+			const err = document.getElementById("err");
 
-async function login(){
+			err.innerHTML = "";
 
-let username =
-document
-.getElementById(
-"username"
-)
-.value;
+			try {
 
-let password =
-document
-.getElementById(
-"password"
-)
-.value;
+				const response =
 
+				await
+				fetch(
 
-let response =
-await fetch(
-"http://localhost:8080/login",
+				"/login",
 
-{
+				{
 
-method:"POST",
+					method : "POST",
 
-headers:{
-"Content-Type":
-"application/json"
-},
+					headers : {
 
-body:
-JSON.stringify({
+						"Content-Type" : "application/json"
 
-username:
-username,
+					},
 
-password:
-password
+					body :
 
-})
+					JSON.stringify({
 
-}
+						email : email,
 
-);
+						password : password
 
+					})
 
-if(response.ok){
+				}
 
-window.location.href=
-"index.html";
+				);
 
-}
+				if (response.ok) {
 
-else{
+					localStorage.setItem(
 
-document
-.getElementById(
-"err"
-)
-.innerHTML=
-"Invalid Credentials";
+					"loggedIn",
 
-}
+					"true"
 
-}
+					);
 
-</script>
+					window.location.href =
+
+					"/index.html";
+
+				}
+
+				else {
+
+					err.innerHTML =
+
+					"Invalid Credentials";
+
+				}
+
+			}
+
+			catch (e) {
+
+				err.innerHTML =
+
+				"Login Failed";
+
+			}
+
+		}
+	</script>
 
 </body>
 
