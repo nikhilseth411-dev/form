@@ -6,7 +6,11 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.entity.LoginUser;
 import com.entity.OtpData;
@@ -22,6 +26,9 @@ public class RegisterController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     private Map<String, OtpData> pendingUsers =
             new HashMap<>();
@@ -52,7 +59,14 @@ public class RegisterController {
                 user.getEmail());
 
         data.setPassword(
-                user.getPassword());
+
+                encoder.encode(
+
+                        user.getPassword()
+
+                )
+
+        );
 
         data.setOtp(
                 otp);

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,27 +17,47 @@ import dto.LoginRequest;
 
 @RestController
 @CrossOrigin("*")
-
 public class LoginController {
 
-	@Autowired
-	private LoginUserRepository repository;
+    @Autowired
+    private LoginUserRepository repository;
 
-	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
-		Optional<LoginUser> user = repository.findByEmail(request.getEmail());
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @RequestBody LoginRequest request) {
 
-		if (!user.isPresent()) {
-			return ResponseEntity.status(401).body("USER_NOT_FOUND");
-		}
+        Optional<LoginUser> user =
+                repository.findByEmail(
+                request.getEmail());
 
-		if (!user.get().getPassword().equals(request.getPassword())) {
+        if (!user.isPresent()) {
 
-			return ResponseEntity.status(401).body("INVALID_PASSWORD");
-		}
+            return ResponseEntity
+                    .status(401)
+                    .body(
+                    "USER_NOT_FOUND");
+        }
 
-		return ResponseEntity.ok("LOGIN_SUCCESS");
-	}
+        if (!encoder.matches(
+
+                request.getPassword(),
+
+                user.get()
+                    .getPassword()
+
+        )) {
+
+            return ResponseEntity
+                    .status(401)
+                    .body(
+                    "INVALID_PASSWORD");
+        }
+
+        return ResponseEntity.ok(
+                "LOGIN_SUCCESS");
+    }
 
 }
