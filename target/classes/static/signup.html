@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Union Bank Signup</title>
+
+<style>
+
+body{
+background:#050816;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+font-family:Arial;
+}
+
+.card{
+width:360px;
+background:#111827;
+padding:40px;
+border-radius:20px;
+}
+
+h1{
+color:#d6b37c;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+box-sizing:border-box;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:20px;
+border:none;
+border-radius:10px;
+background:#d6b37c;
+cursor:pointer;
+font-weight:bold;
+}
+
+button:hover{
+opacity:.9;
+}
+
+#msg{
+text-align:center;
+margin-top:15px;
+color:white;
+}
+
+.link{
+color:#d6b37c;
+text-align:center;
+margin-top:20px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Create Account</h1>
+
+<input
+id="email"
+type="email"
+placeholder="Enter Email">
+
+<input
+id="password"
+type="password"
+placeholder="Enter Password">
+
+<button onclick="signup()">
+Create Account
+</button>
+
+<p id="msg"></p>
+
+<input
+id="otp"
+type="text"
+placeholder="Enter OTP"
+style="display:none">
+
+<button
+id="verifyBtn"
+onclick="verifyOtp()"
+style="display:none">
+
+Verify OTP
+
+</button>
+
+<div
+class="link"
+onclick="window.location.href='/login.html'">
+
+Already have account? Login
+
+</div>
+
+</div>
+
+<script>
+
+async function signup(){
+
+const email=
+document.getElementById("email").value.trim();
+
+const password=
+document.getElementById("password").value.trim();
+
+const msg=
+document.getElementById("msg");
+
+const otp=
+document.getElementById("otp");
+
+const verifyBtn=
+document.getElementById("verifyBtn");
+
+const response=
+await fetch("/signup",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email:email,
+password:password
+})
+
+});
+
+const text=
+await response.text();
+
+msg.innerHTML=text;
+
+if(text==="OTP_SENT"){
+
+otp.style.display="block";
+
+verifyBtn.style.display="block";
+
+}
+
+}
+
+async function verifyOtp(){
+
+const email=
+document.getElementById("email").value.trim();
+
+const otp=
+document.getElementById("otp").value.trim();
+
+const msg=
+document.getElementById("msg");
+
+const response=
+await fetch("/verify-otp",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email:email,
+otp:otp
+})
+
+});
+
+const text=
+await response.text();
+
+msg.innerHTML=text;
+
+if(text==="ACCOUNT_CREATED"){
+
+window.location.href=
+"/login.html";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

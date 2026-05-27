@@ -1,10 +1,12 @@
-package dto;
+package com.entity;
 
-public class LoginRequest {
+public class OtpData {
 
     private String email;
 
     private String password;
+
+    private String otp;
 
     public String getEmail() {
         return email;
@@ -20,6 +22,14 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
 }

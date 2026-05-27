@@ -14,8 +14,8 @@ body {
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
-	font-family: Arial;
 	margin: 0;
+	font-family: Arial;
 }
 
 .card {
@@ -34,8 +34,8 @@ input {
 	width: 100%;
 	padding: 14px;
 	margin-top: 15px;
-	border-radius: 10px;
 	border: none;
+	border-radius: 10px;
 	box-sizing: border-box;
 }
 
@@ -43,16 +43,21 @@ button {
 	width: 100%;
 	padding: 14px;
 	margin-top: 20px;
-	background: #d6b37c;
 	border: none;
-	cursor: pointer;
 	border-radius: 10px;
+	background: #d6b37c;
+	cursor: pointer;
 	font-weight: bold;
 }
 
-p {
+button:hover {
+	opacity: .9;
+}
+
+#err {
 	color: red;
 	text-align: center;
+	margin-top: 15px;
 }
 </style>
 
@@ -74,87 +79,87 @@ p {
 	</div>
 
 	<script>
-		localStorage.removeItem("loggedIn");
 
-		async function login() {
+localStorage.removeItem("loggedIn");
 
-			const email = document.getElementById("email").value.trim();
+async function login() {
 
-			const password = document.getElementById("password").value.trim();
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
 
-			const err = document.getElementById("err");
+    const password =
+        document
+        .getElementById("password")
+        .value
+        .trim();
 
-			err.innerHTML = "";
+    const err =
+        document
+        .getElementById("err");
 
-			try {
+    err.innerHTML = "";
 
-				const response =
+    if(email === "" || password === ""){
+        err.innerHTML =
+            "Enter email and password";
+        return;
+    }
 
-				await
-				fetch(
+    try {
 
-				"/login",
+        const response =
+            await fetch(
+                "/login",
+                {
+                    method:"POST",
 
-				{
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
 
-					method : "POST",
+                    body:JSON.stringify({
+                        email:email,
+                        password:password
+                    })
+                }
+            );
 
-					headers : {
+        const message =
+            await response.text();
 
-						"Content-Type" : "application/json"
+        if(response.ok){
 
-					},
+            localStorage.setItem(
+                "loggedIn",
+                "true"
+            );
 
-					body :
+            window.location.href =
+                "/index.html";
 
-					JSON.stringify({
+        } else {
 
-						email : email,
+            err.innerHTML =
+                message;
 
-						password : password
+        }
 
-					})
+    }
 
-				}
+    catch(e){
 
-				);
+        err.innerHTML =
+            "Server Error";
 
-				if (response.ok) {
+    }
 
-					localStorage.setItem(
+}
 
-					"loggedIn",
-
-					"true"
-
-					);
-
-					window.location.href =
-
-					"/index.html";
-
-				}
-
-				else {
-
-					err.innerHTML =
-
-					"Invalid Credentials";
-
-				}
-
-			}
-
-			catch (e) {
-
-				err.innerHTML =
-
-				"Login Failed";
-
-			}
-
-		}
-	</script>
+</script>
 
 </body>
 

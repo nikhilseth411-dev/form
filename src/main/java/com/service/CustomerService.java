@@ -10,49 +10,18 @@ import com.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
+	@Autowired
+	private CustomerRepository repository;
 
-@Autowired
-private CustomerRepository repository;
+	public Customer saveCustomer(Customer customer) {
+		boolean exists = repository.existsByPanNumber(customer.getPanNumber());
+		if (exists) {
+			throw new RuntimeException("USER_ALREADY_EXISTS");
+		}
+		return repository.save(customer);
+	}
 
-
-public Customer saveCustomer(
-Customer customer
-){
-
-boolean exists =
-
-repository
-.existsByPanNumber(
-
-customer
-.getPanNumber()
-
-);
-
-if(
-exists
-){
-
-throw new RuntimeException(
-"USER_ALREADY_EXISTS"
-);
-
-}
-
-return repository
-.save(
-customer
-);
-
-}
-
-
-public List<Customer>
-getAllCustomers(){
-
-return repository
-.findAll();
-
-}
-
+	public List<Customer> getAllCustomers() {
+		return repository.findAll();
+	}
 }

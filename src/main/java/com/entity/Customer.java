@@ -6,64 +6,64 @@ import jakarta.persistence.Id;
 @Entity
 public class Customer {
 
-    @Id
-    private String panNumber;
+	@Id
+	private String panNumber;
 
-    private String customerName;
-    private int age;
-    private double yearlyIncome;
-    private double interestIncome;
-    private String regime;
+	private String customerName;
+	private int age;
+	private double yearlyIncome;
+	private double interestIncome;
+	private String regime;
 
-    public Customer() {
+	public Customer() {
 
-    }
+	}
 
-    public String getPanNumber() {
-        return panNumber;
-    }
+	public String getPanNumber() {
+		return panNumber;
+	}
 
-    public void setPanNumber(String panNumber) {
-        this.panNumber = panNumber;
-    }
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
 
-    public String getCustomerName() {
-        return customerName;
-    }
+	public String getCustomerName() {
+		return customerName;
+	}
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	public int getAge() {
+		return age;
+	}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public void setAge(int age) {
+		this.age = age;
+	}
 
-    public double getYearlyIncome() {
-        return yearlyIncome;
-    }
+	public double getYearlyIncome() {
+		return yearlyIncome;
+	}
 
-    public void setYearlyIncome(double yearlyIncome) {
-        this.yearlyIncome = yearlyIncome;
-    }
+	public void setYearlyIncome(double yearlyIncome) {
+		this.yearlyIncome = yearlyIncome;
+	}
 
-    public double getInterestIncome() {
-        return interestIncome;
-    }
+	public double getInterestIncome() {
+		return interestIncome;
+	}
 
-    public void setInterestIncome(double interestIncome) {
-        this.interestIncome = interestIncome;
-    }
+	public void setInterestIncome(double interestIncome) {
+		this.interestIncome = interestIncome;
+	}
 
-    public String getRegime() {
-        return regime;
-    }
+	public String getRegime() {
+		return regime;
+	}
 
-    public void setRegime(String regime) {
-        this.regime = regime;
-    }
+	public void setRegime(String regime) {
+		this.regime = regime;
+	}
 }
